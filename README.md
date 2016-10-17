@@ -6,7 +6,7 @@ Posts the build status to IFTTT Maker Channel to trigger actions with all other 
 
 Create an installable artifact:
 
-1. `git clone https://github.com/upgundecha/ifttt-build-notifier.git`
+1. `git clone https://github.com/jenkinsci/ifttt-build-notifier-plugin.git`
 2. `cd ifttt-build-notifier`
 3. `mvn clean install`
 4. Install Plugin via Manage Jenkins > Plugins > Advanced > Upload ```./target/ifttt-build-notifier.hpi```
