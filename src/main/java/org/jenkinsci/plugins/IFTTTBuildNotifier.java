@@ -8,6 +8,7 @@ import hudson.Launcher;
 import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
+import hudson.model.Result;
 import hudson.tasks.BuildStepDescriptor;
 import hudson.tasks.BuildStepMonitor;
 import hudson.tasks.Notifier;
@@ -71,7 +72,14 @@ public class IFTTTBuildNotifier extends Notifier {
     public boolean perform(AbstractBuild<?, ?> build, Launcher launcher,
                            BuildListener listener) throws InterruptedException, IOException {
 
-        String buildResult = build.getResult().toString();
+        
+        Result buildResultObject = build.getResult();
+        
+        if (buildResultObject == null) {
+            return false;
+        }
+        
+        String buildResult = buildResultObject.toString();
         int buildNumber = build.getNumber();
         String projectName = build.getProject().getName();
 
@@ -106,6 +114,8 @@ public class IFTTTBuildNotifier extends Notifier {
                 throw new RuntimeException("Failed to call IFTTT Status Build Trigger - HTTP error code : "
                         + statusResponse.getStatus());
             }
+        } catch (RuntimeException e) {
+            throw e;
         } catch (Exception e) {
             listener.error("Failed to call IFTTT Trigger...");
             listener.error(e.toString());
